@@ -26,16 +26,16 @@ echo -e "\nNumber of games where the winning team scored more than two goals:"
 echo "$($PSQL "SELECT COUNT(*) FROM games WHERE winner_goals > 2")"
 
 echo -e "\nWinner of the 2018 tournament team name:"
-echo "$($PSQL "SELECT name FROM teams INNER JOIN games ON teams.team_id = games.winner_id WHERE year=2018 and round='Final'")"
+echo "$($PSQL "SELECT DISTINCT(name) FROM teams INNER JOIN games ON teams.team_id = games.winner_id WHERE year=2018 and round='Final'")"
 
 echo -e "\nList of teams who played in the 2014 'Eighth-Final' round:"
-echo "$($PSQL "SELECT name FROM teams INNER JOIN games ON teams.team_id = games.winner_id or teams.team_id = games.opponent_id WHERE year=2014 AND round='Eighth-Final'")"
+echo "$($PSQL "SELECT DISTINCT(name) FROM teams INNER JOIN games ON teams.team_id = games.winner_id or teams.team_id = games.opponent_id WHERE year=2014 AND round='Eighth-Final' ORDER BY name")"
 
 echo -e "\nList of unique winning team names in the whole data set:"
-echo "$($PSQL "SELECT DISTINCT(name) FROM teams INNER JOIN games ON teams.team_id = games.winner_id")"
+echo "$($PSQL "SELECT DISTINCT(name) FROM teams INNER JOIN games ON teams.team_id = games.winner_id ORDER BY name")"
 
 echo -e "\nYear and team name of all the champions:"
-echo "$($PSQL "SELECT name, year FROM teams INNER JOIN games ON teams.team_id = games.winner_id and round='Final'")"
+echo "$($PSQL "SELECT year, name FROM teams INNER JOIN games ON teams.team_id = games.winner_id and round='Final' ORDER BY YEAR")"
 
 echo -e "\nList of teams that start with 'Co':"
 echo "$($PSQL "SELECT name FROM teams WHERE name LIKE 'Co%'")"
